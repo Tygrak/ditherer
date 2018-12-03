@@ -57,6 +57,7 @@ def dither3x3(image, colors, errorR1 = 1/8, errorR2 = 1/16):
                 bestColorId = j
         error = numpy.subtract(pixels[i], colors[bestColorId])
         pixels[i] = colors[bestColorId]
+        # extremely ugly code
         if i%image.width != image.width-1:
             pixels[i+1] = tuple(numpy.round(numpy.add(pixels[i+1], error*errorR1)).astype(int))
             if i%image.width != image.width-2:
@@ -103,7 +104,6 @@ def randomDither(image, colors, bias):
                 chosenId = j
                 break
             dSum += colorDistances[j]
-        #print(pixels[i], "=>", colors[chosenId], dSum, randNum, colorDistances, colors)
         pixels[i] = colors[chosenId]
     newImage.putdata(pixels)
     return newImage
