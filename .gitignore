@@ -1,3 +1,6 @@
 /__pycache__
-*.png
-*.jpeg
+/*.png
+/*.jpeg
+/*.jpg
+/*.tar.gz
+!/outputShowcase

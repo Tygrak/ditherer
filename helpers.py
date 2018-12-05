@@ -28,3 +28,8 @@ def loadImage(path):
         print("Unable to load image")
     original = original.convert("RGB")
     return original
+
+def imageCopyPixels(image, newPixels):
+    newImage = image.copy()
+    newImage.putdata(newPixels)
+    return newImage

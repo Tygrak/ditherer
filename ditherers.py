@@ -7,7 +7,6 @@ import numpy
 from helpers import *
 
 def threshold(image, colors):
-    newImage = image.copy()
     pixels = list(image.getdata())
     for i in range(len(pixels)):
         bestColorId = 0
@@ -18,13 +17,11 @@ def threshold(image, colors):
                 bestColorDistance = dist
                 bestColorId = j
         pixels[i] = colors[bestColorId]
-    newImage.putdata(pixels)
-    return newImage
+    return pixels
 
 #errorR1 and R2 define the amount of error carried to surrounding squares
 def dither2x2(image, colors, errorR1=1/4, errorR2=1/4):
-    newImage = image.copy()
-    pixels = list(newImage.getdata())
+    pixels = list(image.getdata())
     for i in range(len(pixels)):
         bestColorId = 0
         bestColorDistance = getDistance(pixels[i], colors[0])
@@ -41,12 +38,10 @@ def dither2x2(image, colors, errorR1=1/4, errorR2=1/4):
                 pixels[i+image.width+1] = tuple(numpy.round(numpy.add(pixels[i+image.width+1], error*errorR2).astype(int)))
         if i+image.width < len(pixels):
             pixels[i+image.width] = tuple(numpy.round(numpy.add(pixels[i+image.width], error*errorR1).astype(int)))
-    newImage.putdata(pixels)
-    return newImage
+    return pixels
 
 def dither3x3(image, colors, errorR1 = 1/8, errorR2 = 1/16):
-    newImage = image.copy()
-    pixels = list(newImage.getdata())
+    pixels = list(image.getdata())
     for i in range(len(pixels)):
         bestColorId = 0
         bestColorDistance = getDistance(pixels[i], colors[0])
@@ -74,14 +69,11 @@ def dither3x3(image, colors, errorR1 = 1/8, errorR2 = 1/16):
             pixels[i+image.width] = tuple(numpy.round(numpy.add(pixels[i+image.width], error*errorR1).astype(int)))
             if i+image.width*2 < len(pixels):
                 pixels[i+image.width*2] = tuple(numpy.round(numpy.add(pixels[i+image.width*2], error*errorR2).astype(int)))
-    newImage.putdata(pixels)
-    return newImage
+    return pixels
 
 def randomDither(image, colors, bias):
-    newImage = image.copy()
-    pixels = list(newImage.getdata())
+    pixels = list(image.getdata())
     for i in range(len(pixels)):
-        #85000, 85400):
         distancesSum = 0
         colorDistances = []
         highestDistance = 0
@@ -105,5 +97,4 @@ def randomDither(image, colors, bias):
                 break
             dSum += colorDistances[j]
         pixels[i] = colors[chosenId]
-    newImage.putdata(pixels)
-    return newImage
+    return pixels
